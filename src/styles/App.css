@@ -62,6 +62,18 @@
   left: 42%;
  
 }
+
+.no-results{
+  display: flex;
+  /* text-align: center; */
+  justify-content: center;
+  padding: 10%;
+  font-size: 34px;
+  color:#fa709a;
+  font-weight: 500;
+}
+
+
 .loading img{
   width: 250px;
   height: 250px;

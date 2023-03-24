@@ -19,9 +19,14 @@ function App() {
     axios
       .get("http://localhost:8000/", { params: { q: query } })
       .then((response) => {
-        console.log(response.data.hits);
-        setIsLoading(false);
-        setRecipes(response.data.hits);
+        if (response.data.hits.length === 0) {
+          setIsLoading(false);
+          setRecipes([]);
+        } else {
+          console.log(response.data.hits);
+          setIsLoading(false);
+          setRecipes(response.data.hits);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -29,6 +34,8 @@ function App() {
   }, [query]);
 
   const getSearch = (e) => {
+    // const rValue = recipes.length === 0;
+    // rValue = false;
     e.preventDefault();
     setQuery(search);
     setSearch("");
@@ -55,13 +62,14 @@ function App() {
             Submit
           </button>
         </form>
-        {isLoading && (
+        {isLoading ? (
           <div className="loading">
             <img src={logo} />
             <p>Loading...</p>
           </div>
-        )}
-        {!isLoading && (
+        ) : recipes.length === 0 ? (
+          <div className="no-results">No results found for {query}</div>
+        ) : (
           <div>
             <div className="results">
               <p>Top Results</p>
@@ -84,6 +92,5 @@ function App() {
       </div>
     </>
   );
-}
 
 export default App;
