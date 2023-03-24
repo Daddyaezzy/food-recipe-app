@@ -1,41 +1,88 @@
-import { useEffect } from "react";
-import "./App.css";
+import { useEffect, useState, useRef } from "react";
+import "./styles/App.css";
+import Recipe from "./component/Recipe";
 import axios from "axios";
+import logo from "./images/La Recipes-logos__transparent.png";
 
 function App() {
-  const APP_ID = "11a3786e";
-  const APP_KEY = "67df2558fcf28d7610bc5026de58b8ae";
+  const [recipes, setRecipes] = useState([]);
+  const [search, setSearch] = useState("");
+  const [query, setQuery] = useState("chicken");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const API = `https://api.edamam.com/api/recipes/v2/0123456789abcdef0123456789abcdef?app_id=${APP_ID}&app_key=${APP_KEY}&type=public
-  `;
+  const inputRef = useRef(null);
 
   useEffect(() => {
     // getRecipe();
+    setIsLoading(true);
+    inputRef.current.focus();
     axios
-      .get("http://localhost:8000/")
+      .get("http://localhost:8000/", { params: { q: query } })
       .then((response) => {
-        console.log(response);
+        console.log(response.data.hits);
+        setIsLoading(false);
+        setRecipes(response.data.hits);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [query]);
 
-  const getRecipe = async () => {
-    const response = await fetch(API);
-    const data = response.json();
-    console.log(data);
+  const getSearch = (e) => {
+    e.preventDefault();
+    setQuery(search);
+    setSearch("");
   };
 
   return (
-    <div className="App">
-      <form className="search-form" action="">
-        <input className="search-input" type="text" />
-        <button className="search-button" type="submit">
-          Submit
-        </button>
-      </form>
-    </div>
+    <>
+      <div className="App">
+        <div className="logo">
+          <img src={logo} alt="" />
+        </div>
+        <form className="search-form" onSubmit={getSearch}>
+          <input
+            className="search-input"
+            type="text"
+            value={search}
+            ref={inputRef}
+            placeholder="Search for a meal recipe..."
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
+          <button className="search-button" type="submit">
+            Submit
+          </button>
+        </form>
+        {isLoading && (
+          <div className="loading">
+            <img src={logo} />
+            <p>Loading...</p>
+          </div>
+        )}
+        {!isLoading && (
+          <div>
+            <div className="results">
+              <p>Top Results</p>
+            </div>
+            <div className="recipes">
+              {recipes.map((recipe) => {
+                return (
+                  <Recipe
+                    key={recipe.recipe.calories}
+                    title={recipe.recipe.label}
+                    calories={recipe.recipe.calories}
+                    image={recipe.recipe.image}
+                    ingredients={recipe.recipe.ingredients}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 

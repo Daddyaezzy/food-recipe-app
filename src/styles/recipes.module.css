@@ -1,0 +1,30 @@
+.recipe{
+    border-radius: 10px;
+    box-shadow: 0px 5px 20px rgb(71,71,71);
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background: white;
+    min-width: 40%;
+    padding: 10px;
+    align-items: center;
+   
+}
+
+.ol{
+    padding-bottom: 10px;
+}
+.image{
+    border-radius: 50%;
+    width: 180px;
+    height: 180px;
+}
+.p{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    color:#fa709a
+}
+h1{
+    color:#fa709a
+}

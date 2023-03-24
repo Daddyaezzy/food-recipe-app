@@ -1,27 +1,29 @@
-const express = require("express");
+import express from "express";
+import fetch from "node-fetch";
+import cors from "cors";
 const app = express();
-const cors = require("cors");
-const fetch = import("node-fetch");
 
-const APP_ID = "11a3786e";
-const APP_KEY = "67df2558fcf28d7610bc5026de58b8ae";
+const APP_ID = "e7f254bb";
+const APP_KEY = "8f77f934fa3e05cea1b548ef85e5077a";
 
-const API = `https://api.edamam.com/api/recipes/v2/0123456789abcdef0123456789abcdef?app_id=${APP_ID}&app_key=${APP_KEY}&type=public`;
-
-app.use(cors({ origin: "*" }));
+app.use(cors());
 
 app.get("/", (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  fetch(API, { mode: "cors" })
+  //   res.set("Access-Control-Allow-Origin", "*");
+  const query = req.query.q;
+
+  const API = `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`;
+  fetch(API)
     .then((response) => response.json())
     .then((data) => {
-      // Do something with the data
       console.log(data);
+      res.status(200).json(data);
     })
     .catch((error) => {
       console.log(error);
+      res.status(500).json(error);
     });
-  res.send("welcome to cors server");
+  // res.send("welcome to cors server");
 });
 
 // app.get("/cors", (req, res) => {
