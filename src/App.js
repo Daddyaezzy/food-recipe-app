@@ -64,7 +64,7 @@ function App() {
         </form>
         {isLoading ? (
           <div className="loading">
-            <img src={logo} />
+            <img src={logo} alt="logo" />
             <p>Loading...</p>
           </div>
         ) : recipes.length === 0 ? (
@@ -78,7 +78,7 @@ function App() {
               {recipes.map((recipe) => {
                 return (
                   <Recipe
-                    key={recipe.recipe.calories}
+                    key={recipe.recipe.label}
                     title={recipe.recipe.label}
                     calories={recipe.recipe.calories}
                     image={recipe.recipe.image}
@@ -92,5 +92,6 @@ function App() {
       </div>
     </>
   );
+}
 
 export default App;
