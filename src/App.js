@@ -4,7 +4,7 @@ import Recipe from "./component/Recipe";
 import axios from "axios";
 import logo from "./images/La Recipes-logos__transparent.png";
 
-function App() {
+export function App() {
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("chicken");
@@ -94,4 +94,4 @@ function App() {
   );
 }
 
-export default App;
+// export default App;
