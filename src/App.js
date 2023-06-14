@@ -17,7 +17,7 @@ export function App() {
     setIsLoading(true);
     inputRef.current.focus();
     axios
-      .get("http://localhost:8000/", { params: { q: query } })
+      .get("https://food-recipie-fhwp.onrender.com", { params: { q: query } })
       .then((response) => {
         if (response.data.hits.length === 0) {
           setIsLoading(false);
